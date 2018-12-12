@@ -1,4 +1,4 @@
-package com.xinlan.picbook.engine.module;
+package com.xinlan.picbook.engine.primitive;
 
 import android.content.Context;
 

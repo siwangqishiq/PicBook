@@ -1,11 +1,9 @@
-package com.xinlan.picbook.engine.module;
+package com.xinlan.picbook.engine.primitive;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLES30;
 
-import com.xinlan.picbook.engine.data.VertexArray;
 import com.xinlan.picbook.engine.shader.TriangleShader;
 
 import java.nio.ByteBuffer;

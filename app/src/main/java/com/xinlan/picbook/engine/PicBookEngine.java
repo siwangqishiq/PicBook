@@ -4,14 +4,15 @@ import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
-import com.xinlan.picbook.engine.module.Elem;
-import com.xinlan.picbook.engine.module.Triangle;
+import com.xinlan.picbook.engine.primitive.Elem;
+import com.xinlan.picbook.engine.primitive.Triangle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_DEPTH_BUFFER_BIT;
 import static android.opengl.GLES20.glClearColor;
@@ -48,43 +49,48 @@ public class PicBookEngine implements GLSurfaceView.Renderer {
 
     }
 
-    public void startRender(){
-        if(mGLSurfaceView == null)
+    public void startRender() {
+        if (mGLSurfaceView == null)
             return;
 
         mGLSurfaceView.setRenderer(this);
-        mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        mGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
-    public void onResume(){
-        if(mGLSurfaceView != null){
+    public void onResume() {
+        if (mGLSurfaceView != null) {
             mGLSurfaceView.onResume();
         }
     }
 
-    public void onPause(){
-        if(mGLSurfaceView != null){
+    public void onPause() {
+        if (mGLSurfaceView != null) {
             mGLSurfaceView.onPause();
         }
     }
 
+    Triangle tri1 = null;
+    Triangle tri2 = null;
+    long frame;
+    float pos;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        Triangle tri1 = new Triangle(mContext);
+        tri1 = new Triangle(mContext);
         addEle(tri1);
-        tri1.setPos(0f,0f,0.5f,0f,1f,1f);
-        tri1.setColor(1 , 0,0,1);
+        tri1.setPos(0f, 0f, 0.5f, 0f, 1f, 1f);
+        tri1.setColor(1, 0, 0, 1);
 
-        Triangle tri2 = new Triangle(mContext);
+        tri2 = new Triangle(mContext);
         addEle(tri2);
-        tri2.setPos(0f,0f,-0.5f,0f,-1f,-1f);
-        tri2.setColor(0 , 1f,1f,1);
+        tri2.setPos(0f, 0f, -0.5f, 0f, -1f, -1f);
+        tri2.setColor(0, 1f, 1f, 1);
 
 
         for (Elem e : elems) {
             e.init(mContext);
         }
+
     }
 
 
@@ -95,16 +101,24 @@ public class PicBookEngine implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        tri1.setPos(0f, 0f, 0.5f, 0f, pos, 1f);
+        pos -= 0.01f;
+        if (pos < -1) {
+            pos = 1;
+        }
+
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         for (Elem e : elems) {
             e.render();
         }
+
+        //mGLSurfaceView.requestRender();
     }
 
-    public void addEle(Elem e){
-        if(e == null)
+    public void addEle(Elem e) {
+        if (e == null)
             return;
 
         elems.add(e);
