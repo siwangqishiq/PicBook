@@ -12,9 +12,9 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import static android.opengl.GLES20.GL_FLOAT;
-import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glVertexAttribPointer;
+import static android.opengl.GLES30.GL_FLOAT;
+import static android.opengl.GLES30.glEnableVertexAttribArray;
+import static android.opengl.GLES30.glVertexAttribPointer;
 
 /**
  * 顶点数组
@@ -41,4 +41,5 @@ public class VertexArray {
         glEnableVertexAttribArray(attributeLocation);
         floatBuffer.position(0);
     }
+
 }//end class
